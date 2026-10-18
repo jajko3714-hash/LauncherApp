@@ -39,13 +39,7 @@ struct WebViewContainer: UIViewRepresentable {
             }
         }
         
-        // Load the HTML file from Resources
-        if let htmlURL = Bundle.main.url(forResource: "index", withExtension: "htm") {
-            print("✅ Found index.htm at: \(htmlURL.path)")
-            webView.loadFileURL(htmlURL, allowingReadAccessTo: htmlURL.deletingLastPathComponent())
-        } else {
-            print("❌ Could not find index.htm in bundle")
-            // Fallback: load from app bundle root
+        // Load HTML directly (embedded)
             let htmlString = """
             <!DOCTYPE html>
             <html>
@@ -55,19 +49,19 @@ struct WebViewContainer: UIViewRepresentable {
                 <style>
                     body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 20px; background: #fff; }
                     h1 { color: #333; }
-                    p { color: #666; }
                 </style>
             </head>
             <body>
                 <h1>LauncherApp</h1>
-                <p>HTML file not found in bundle.</p>
-                <p>Bundle path: <code id="path"></code></p>
-                <script>document.getElementById('path').textContent = window.location.href;</script>
+                <p>Ready for LiveContainer</p>
+                <script>
+                    // Message handlers ready
+                    console.log('LauncherApp loaded');
+                </script>
             </body>
             </html>
             """
             webView.loadHTMLString(htmlString, baseURL: nil)
-        }
         
         return webView
     }
