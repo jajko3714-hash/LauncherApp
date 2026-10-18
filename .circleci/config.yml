@@ -32,22 +32,21 @@ jobs:
             # Create unsigned IPA manually from archive
             ARCHIVE_PATH="build/LiveContainer.xcarchive"
             APP_PATH="$ARCHIVE_PATH/Products/Applications/LauncherApp.app"
-            IPA_PATH="build/LiveContainer.ipa"
             
-            # Create Payload directory
+            # Create Payload directory and copy .app
             mkdir -p build/Payload
-            
-            # Copy .app to Payload folder
             cp -R "$APP_PATH" build/Payload/
             
-            # Create unsigned IPA
-            cd build && zip -r "$IPA_PATH" Payload/
+            # Create unsigned IPA from within build directory
+            cd build
+            zip -r LiveContainer.ipa Payload/
+            cd ..
             
             # Cleanup
-            rm -rf Payload
+            rm -rf build/Payload
             
-            echo "Unsigned IPA created: $IPA_PATH"
-            ls -la "$IPA_PATH"
+            echo "Unsigned IPA created: build/LiveContainer.ipa"
+            ls -la build/LiveContainer.ipa
 
       - store_artifacts:
           path: build/LiveContainer.ipa
