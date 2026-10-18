@@ -14,25 +14,20 @@ jobs:
       
       - run:
           name: Generate Xcode Project
-          command: |
-            cd LauncherApp
-            xcodegen generate
-      
+          command: xcodegen generate
+
       - run:
           name: Build iOS App
-          command: |
-            cd LauncherApp
-            xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Debug -destination 'generic/platform=iOS Simulator' build
-      
+          command: xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Debug -destination 'generic/platform=iOS Simulator' build
+
       - run:
           name: Create IPA
           command: |
-            cd LauncherApp
             xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Release -destination 'generic/platform=iOS' archive -archivePath build/LiveContainer.xcarchive
             xcodebuild -exportArchive -archivePath build/LiveContainer.xcarchive -exportOptionsPlist exportOptions.plist -exportPath .
 
       - store_artifacts:
-          path: LauncherApp/LiveContainer.ipa
+          path: LiveContainer.ipa
           destination: LauncherApp.ipa
 
 workflows:
