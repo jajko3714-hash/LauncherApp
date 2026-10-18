@@ -87,7 +87,8 @@ gridApps.forEach(a=>document.getElementById('appGrid').appendChild(createApp(a))
 dockApps.forEach(a=>document.getElementById('dock').appendChild(createApp(a)));
 </script>
 </body>
-</html>"""
+</html>
+"""
             webView.loadHTMLString(htmlString, baseURL: nil)
         
         return webView
