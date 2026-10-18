@@ -3,7 +3,6 @@ version: 2.1
 jobs:
   build:
     macos:
-      resource_class: medium
       xcode: "15.0"
     working_directory: ~/project
     steps:
