@@ -25,7 +25,7 @@ jobs:
           name: Build and Export iOS IPA
           command: |
             xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Release -destination 'generic/platform=iOS' archive -archivePath build/LiveContainer.xcarchive
-            xcodebuild -exportArchive -archivePath build/LiveContainer.xcarchive -exportOptionsPlist exportOptions.plist -exportPath build
+            xcodebuild -exportArchive -archivePath build/LiveContainer.xcarchive -exportOptionsPlist exportOptions.plist -exportPath build -allowProvisioningUpdates
 
       - store_artifacts:
           path: build/LiveContainer.ipa
