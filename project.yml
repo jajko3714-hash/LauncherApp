@@ -1,0 +1,34 @@
+name: LauncherApp
+options:
+  bundleIdPrefix: com.launcher
+  deploymentTarget:
+    iOS: "14.0"
+
+targets:
+  LauncherApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+    resources:
+      - path: Resources
+    settings:
+      PRODUCT_NAME: LauncherApp
+      SWIFT_VERSION: "5.9"
+      CODE_SIGN_IDENTITY: "iPhone Developer"
+      PROVISIONING_PROFILE_SPECIFIER: ""
+      DEVELOPMENT_TEAM: ""
+      ENABLE_BITCODE: NO
+    dependencies: []
+
+schemes:
+  LauncherApp:
+    build:
+      targets:
+        LauncherApp: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    archive:
+      config: Release

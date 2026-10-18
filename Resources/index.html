@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08090d">
+<title>Separate OS — Launcher UI</title>
+<style>
+:root{color-scheme:dark;--ease:cubic-bezier(.25,1,.5,1);--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;min-height:100%;background:#07080c;color:white;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif}
+body{min-height:100dvh;display:grid;place-items:center;overflow:hidden}button{font:inherit;color:inherit;border:0;cursor:pointer}
+.phone{position:relative;width:393px;height:852px;flex:none;overflow:hidden;isolation:isolate;border-radius:54px;background:#11162c;box-shadow:0 30px 100px #000b,inset 0 0 0 1px #ffffff2b;background-size:cover;background-position:center;touch-action:pan-y}
+@media(max-width:393px),(max-height:852px){.phone{transform:scale(min(calc(100vw / 393),calc(100dvh / 852)));transform-origin:center}}
+.wallpaper-0{background-image:radial-gradient(ellipse at 20% 22%,#5977ed 0,transparent 42%),radial-gradient(ellipse at 80% 72%,#a449ba 0,transparent 44%),linear-gradient(145deg,#182c4e,#141027 60%,#0c1730)}
+.wallpaper-1{background-image:radial-gradient(ellipse at 65% 24%,#f3a56b 0,transparent 35%),radial-gradient(ellipse at 30% 72%,#e45b79 0,transparent 45%),linear-gradient(145deg,#572a56,#241e48 65%,#111426)}
+.wallpaper-2{background-image:radial-gradient(ellipse at 30% 30%,#46c6c2 0,transparent 40%),radial-gradient(ellipse at 80% 75%,#3e5ce1 0,transparent 43%),linear-gradient(150deg,#102e49,#101326)}
+.wallpaper-3{background-image:radial-gradient(ellipse at 55% 30%,#c4b6ff 0,transparent 35%),radial-gradient(ellipse at 20% 80%,#5966a7 0,transparent 48%),linear-gradient(140deg,#24294b,#100f20)}
+.status{position:absolute;z-index:50;top:0;left:0;width:100%;height:calc(53px + var(--st));padding:calc(14px + var(--st)) 27px 0;display:flex;justify-content:space-between;font-size:15px;font-weight:650;pointer-events:none}
+.status-right{display:flex;align-items:center;gap:6px;padding-top:2px}.signal{display:flex;height:12px;align-items:flex-end;gap:2px}.signal i{width:3px;border-radius:2px;background:white}.signal i:nth-child(1){height:4px}.signal i:nth-child(2){height:6px}.signal i:nth-child(3){height:9px}.signal i:nth-child(4){height:12px}.battery{width:23px;height:11px;border:1px solid #ffffffd9;border-radius:3px;padding:2px;position:relative}.battery:before{content:"";display:block;height:100%;width:75%;background:white;border-radius:1px}.battery:after{content:"";position:absolute;right:-3px;top:3px;height:4px;width:2px;background:white}
+.island{position:absolute;z-index:51;top:calc(11px + var(--st));left:50%;transform:translateX(-50%);width:118px;height:35px;border-radius:30px;background:#000;box-shadow:inset 0 0 0 1px #ffffff08;pointer-events:none}.island:after{content:"";position:absolute;right:11px;top:13px;width:7px;height:7px;border-radius:50%;background:#11162c;box-shadow:inset 0 0 0 1px #252b42}
+.pages-viewport{position:absolute;inset:72px 0 150px;overflow:hidden;touch-action:pan-y}.pages{display:flex;width:100%;height:100%;transform:translate3d(0,0,0);will-change:transform}.pages.animating{transition:transform .3s var(--ease)}.page{flex:0 0 100%;width:100%;height:100%;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:105px;align-content:start;justify-items:center;padding:5px 12px;row-gap:1px}
+.app{position:relative;width:76px;height:100px;padding:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;overflow:visible}.app-icon{position:relative;width:60px;height:60px;flex:none;display:grid;place-items:center;border-radius:15px;overflow:hidden;font-size:31px;box-shadow:0 5px 12px #0004,inset 0 0 0 .5px #ffffff29}.app-name{width:76px;padding:0 1px;text-align:center;font-size:11px;line-height:15px;text-shadow:0 1px 4px #000b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.safari{background:linear-gradient(145deg,#fff,#dce6f9)}.compass{position:relative;width:47px;height:47px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f7fbff,#b4c7e9 70%,#8294b5);box-shadow:inset 0 0 0 1px #32466e4d}.compass:before{content:"";position:absolute;inset:5px;border-radius:50%;border:1px solid #28427359}.needle{position:absolute;left:20px;top:8px;width:7px;height:31px;background:linear-gradient(to bottom,#f3334a 0 48%,#fff 49%);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);transform:rotate(38deg);filter:drop-shadow(0 1px 1px #555)}
+.appstore{background:linear-gradient(145deg,#31c9ff,#0870ed)}.settings{background:linear-gradient(145deg,#e4e7ec,#8d949e)}.photos{background:#fff}.camera{background:linear-gradient(145deg,#60646b,#25272b)}.messages,.phone-icon{background:linear-gradient(145deg,#54ed6b,#18b63d)}.music{background:linear-gradient(145deg,#ff4e77,#bf154e)}.files{background:linear-gradient(145deg,#4bb9ff,#1265df)}.notes{background:linear-gradient(145deg,#fffbdc,#fff)}.clock{background:linear-gradient(145deg,#25272b,#000)}.weather{background:linear-gradient(145deg,#73cfff,#3873e7)}.custom{background:linear-gradient(145deg,#9e84ff,#5340ce)}.paper{position:absolute;inset:12px 13px 10px;border-radius:3px;background:repeating-linear-gradient(to bottom,transparent 0 6px,#d9dce0 7px 8px);border-top:5px solid #ffd747}.appstore-symbol{font-size:40px;font-weight:300}
+.dock{position:absolute;z-index:10;left:16px;right:16px;bottom:calc(34px + var(--sb));height:91px;padding:12px 10px;display:flex;align-items:center;justify-content:space-around;gap:8px;border:1px solid #ffffff30;border-radius:29px;background:#f0f3ff2b;-webkit-backdrop-filter:blur(30px) saturate(1.5);backdrop-filter:blur(30px) saturate(1.5)}.dock .app{width:60px;height:60px;gap:0}.dock .app-icon{width:60px;height:60px}.dock .app-name{display:none}
+.dots{position:absolute;left:0;right:0;bottom:calc(137px + var(--sb));display:flex;justify-content:center;gap:7px;z-index:5}.dot{width:6px;height:6px;padding:0;border-radius:50%;background:#ffffff70}.dot.active{background:white;transform:scale(1.12)}
+.home-bar{position:absolute;z-index:120;bottom:calc(8px + var(--sb));left:50%;transform:translateX(-50%);width:136px;height:5px;border-radius:10px;background:#fff;cursor:pointer}
+.phone.jiggle .app:not([data-system="true"]) .app-icon{animation:wobble .24s ease-in-out infinite alternate}.phone.jiggle .app:not([data-system="true"]):nth-child(even) .app-icon{animation-delay:-.12s}@keyframes wobble{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}.delete{position:absolute;z-index:5;left:2px;top:-5px;width:21px;height:21px;border:1.5px solid #fffe;border-radius:50%;background:#e4e4e9;color:#33343a;font-size:18px;font-weight:700;line-height:17px;display:none;align-items:center;justify-content:center;box-shadow:0 2px 4px #0004}.jiggle .app:not([data-system="true"]) .delete{display:flex}
+.control{position:absolute;z-index:80;top:0;left:0;width:100%;height:530px;padding:calc(67px + var(--st)) 18px 25px;border-radius:0 0 34px 34px;background:#1e202aaf;border:1px solid #ffffff1f;-webkit-backdrop-filter:blur(35px) saturate(1.4);backdrop-filter:blur(35px) saturate(1.4);transform:translateY(-110%);transition:transform .42s var(--ease)}.control.open{transform:translateY(0)}.panel-title{font-size:22px;font-weight:700;margin:4px 0 19px}.cc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cc-tile{min-height:130px;padding:12px;border-radius:22px;background:#ffffff21;border:1px solid #ffffff12}.connections{display:grid;grid-template-columns:1fr 1fr;gap:12px}.connection{width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:#42444d;font-size:20px;transition:background .2s,transform .15s}.connection.on{background:#147efb}.cc-label{display:block;margin-top:10px;color:#ffffffcc;font-size:12px}.cc-slider{height:90px;margin-top:12px;border-radius:17px;background:linear-gradient(to top,#fff 0 48%,#ffffff40 48%);position:relative}.cc-slider span{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);color:#333;font-size:20px}.dismiss{width:100%;margin-top:17px;padding:12px;background:#ffffff21;border-radius:17px}
+.wallpapers{position:absolute;z-index:85;left:0;right:0;bottom:0;height:380px;padding:22px 0 calc(45px + var(--sb));background:#171923ed;border:1px solid #ffffff26;border-radius:30px 30px 0 0;-webkit-backdrop-filter:blur(35px);backdrop-filter:blur(35px);transform:translateY(110%);transition:transform .38s var(--ease)}.wallpapers.open{transform:translateY(0)}.sheet-head{padding:0 22px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.sheet-head h2{font-size:21px;margin:0}.close{width:31px;height:31px;border-radius:50%;background:#ffffff24;font-size:21px}.wallpaper-track{display:flex;overflow-x:auto;gap:13px;padding:0 22px 15px;scrollbar-width:none}.wallpaper-track::-webkit-scrollbar{display:none}.wallpaper-item{width:105px;flex:0 0 105px}.wallpaper-thumb{width:105px;height:180px;border:2px solid transparent;border-radius:18px;padding:0;background-size:cover;background-position:center}.wallpaper-thumb.selected{border-color:white;box-shadow:0 0 0 2px #ffffff40}.caption{display:block;margin-top:8px;font-size:11px;text-align:center}
+.app-window{position:absolute;inset:0;z-index:70;background:#f5f5fa;color:#17171b;overflow:auto;opacity:0;transform:scale(.82);transform-origin:center bottom;pointer-events:none;transition:transform .32s var(--ease),opacity .22s}.app-window.open{opacity:1;transform:scale(1);pointer-events:auto}.app-window-top{height:calc(55px + var(--st));padding:calc(16px + var(--st)) 22px 0;background:#f5f5faf2;display:flex;align-items:flex-start;justify-content:space-between;font-weight:650}.app-window-content{padding:25px 23px}.app-window-content h1{font-size:31px;letter-spacing:-.8px;margin:10px 0}.app-window-content p{color:#676773;line-height:1.5}.app-card{padding:18px;margin-top:16px;border-radius:19px;background:white;box-shadow:0 2px 9px #0000000b}
+.backdrop{position:absolute;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:26px;background:#0008;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}.backdrop.open{display:flex}.modal{width:100%;max-height:72%;overflow:auto;border-radius:25px;padding:22px;background:#272831f5;border:1px solid #ffffff24;box-shadow:0 20px 70px #0008}.modal h2{margin:0 0 8px;font-size:21px}.modal p{color:#c4c4ce;font-size:13px;line-height:1.5}.file-option{width:100%;padding:14px;margin-top:8px;border-radius:14px;text-align:left;background:#ffffff14;display:flex;align-items:center;gap:12px}.file-option small{display:block;color:#bdbdc8;margin-top:3px}.modal-actions{display:flex;gap:8px;margin-top:14px}.modal-actions button{flex:1;padding:12px;border-radius:13px;background:#ffffff1c}.modal-actions .primary{background:#087df1}
+.toast{position:absolute;z-index:130;left:50%;top:62px;transform:translate(-50%,-10px);opacity:0;pointer-events:none;padding:10px 14px;border-radius:20px;background:#252630e8;border:1px solid #ffffff20;font-size:12px;white-space:nowrap;transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<main class="phone wallpaper-0" id="phone" aria-label="Launcher preview">
+  <div class="status"><span id="time">09:41</span><div class="status-right"><span class="signal"><i></i><i></i><i></i><i></i></span><span>Wi-Fi</span><span class="battery"></span></div></div>
+  <div class="island" aria-hidden="true"></div>
+  <div class="pages-viewport" id="viewport"><div class="pages" id="pages"><div class="page" id="page-0"></div><div class="page" id="page-1"></div></div></div>
+  <div class="dots" id="dots"></div><div class="dock" id="dock" aria-label="Dock"></div>
+  <section class="control" id="control" aria-label="Control Center">
+    <div class="panel-title">Control Center</div><div class="cc-grid">
+      <div class="cc-tile"><div class="connections"><button class="connection on" data-toggle="airplane" aria-label="Airplane mode">✈</button><button class="connection on" data-toggle="cellular" aria-label="Cellular data">▮</button><button class="connection on" data-toggle="wifi" aria-label="Wi-Fi">⌁</button><button class="connection on" data-toggle="bluetooth" aria-label="Bluetooth">ᛒ</button></div><span class="cc-label">Connectivity</span></div>
+      <div class="cc-tile"><span style="font-size:13px">Focus</span><div style="font-size:35px;margin-top:17px">☾</div><span class="cc-label">Do Not Disturb</span></div>
+      <div class="cc-tile"><span style="font-size:13px">Brightness</span><div class="cc-slider"><span>☼</span></div></div><div class="cc-tile"><span style="font-size:13px">Volume</span><div class="cc-slider" style="background:linear-gradient(to top,#fff 0 35%,#ffffff40 35%)"><span>♫</span></div></div>
+    </div><button class="dismiss" id="dismissControl">Done</button>
+  </section>
+  <section class="wallpapers" id="wallpapers" aria-label="Wallpaper picker"><div class="sheet-head"><h2>Wallpaper</h2><button class="close" id="closeWallpapers" aria-label="Close">×</button></div><div class="wallpaper-track" id="wallpaperTrack"></div></section>
+  <section class="app-window" id="appWindow" aria-label="Application preview"><div class="app-window-top"><button id="closeApp" style="color:#087df1;background:none">‹ Home</button><span id="windowTitle">App</span><span style="width:40px"></span></div><div class="app-window-content" id="windowContent"></div></section>
+  <div class="backdrop" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><h2 id="modalTitle">Add app</h2><p id="modalDescription">Choose an example app for this UI preview.</p><div id="modalOptions"></div><div class="modal-actions"><button id="cancelModal">Cancel</button><button class="primary" id="uploadButton">Choose IPA…</button></div></div></div>
+  <div class="toast" id="toast" role="status"></div><button class="home-bar" id="homeBar" aria-label="Return home"></button>
+</main>
+<script>
+(() => {
+'use strict';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const phone=$('#phone'),pages=$('#pages'),viewport=$('#viewport'),pageEls=[$('#page-0'),$('#page-1')],dock=$('#dock'),dots=$('#dots'),control=$('#control'),wallpaperPanel=$('#wallpapers'),appWindow=$('#appWindow'),modal=$('#modalBackdrop');
+let activePage=0,jiggle=false,dragging=false,startX=0,currentX=0,pressTimer=null,toastTimer=null;
+const wallpapers=[{name:'Midnight',cls:'wallpaper-0'},{name:'Sunset',cls:'wallpaper-1'},{name:'Ocean',cls:'wallpaper-2'},{name:'Lavender',cls:'wallpaper-3'}];
+const apps=[
+{name:'FaceTime',glyph:'◉',style:'messages',system:true,detail:'Make audio and video calls.'},
+{name:'Calendar',glyph:'▦',style:'notes',system:true,detail:'Your schedule, all in one place.'},
+{name:'Photos',glyph:'🌈',style:'photos',system:true,detail:'Your photos and videos.'},
+{name:'Camera',glyph:'📷',style:'camera',system:true,detail:'Capture a moment.'},
+{name:'Mail',glyph:'✉',style:'appstore',system:true,detail:'Your email inbox.'},
+{name:'Clock',glyph:'◷',style:'clock',system:true,detail:'Alarms, timers and world clocks.'},
+{name:'Weather',glyph:'☀️',style:'weather',system:true,detail:'Weather conditions and forecasts.'},
+{name:'Notes',glyph:'',style:'notes',paper:true,system:true,detail:'Write down an idea.'},
+{name:'App Store',glyph:'✣',style:'appstore',system:true,detail:'Discover apps. UI preview only.'},
+{name:'Settings',glyph:'⚙',style:'settings',system:true,settings:true,detail:'Configure this launcher preview.'},
+{name:'Safari',glyph:'',style:'safari',safari:true,system:true,detail:'A browser window preview.'},
+{name:'Music',glyph:'♫',style:'music',system:true,detail:'Your music library.'}
+];
+const dockApps=[{name:'Phone',glyph:'☎',style:'phone-icon',system:true,detail:'Phone app preview.'},{name:'Messages',glyph:'●',style:'messages',system:true,detail:'Messages app preview.'},{name:'Safari',glyph:'',style:'safari',safari:true,system:true,detail:'A browser window preview.'},{name:'Music',glyph:'♫',style:'music',system:true,detail:'Your music library.'}];
+function makeIcon(app){
+ const b=document.createElement('button');b.className='app';b.type='button';b.dataset.app=app.name;b.dataset.system=String(!!app.system);if(app.bundleID)b.dataset.bundleId=app.bundleID;
+ const icon=document.createElement('span');icon.className='app-icon '+(app.style||'custom');
+ if(app.safari){const c=document.createElement('span');c.className='compass';const n=document.createElement('span');n.className='needle';c.append(n);icon.append(c)}
+ else if(app.paper){const p=document.createElement('span');p.className='paper';icon.append(p)}
+ else{icon.textContent=app.glyph||'◈';if(app.name==='App Store')icon.classList.add('appstore-symbol')}
+ const del=document.createElement('span');del.className='delete';del.textContent='−';del.setAttribute('aria-label','Remove app');
+ del.addEventListener('click',e=>{e.stopPropagation();removeApp(app,b)});
+ const label=document.createElement('span');label.className='app-name';label.textContent=app.name;b.append(icon,del,label);
+ let longPressed=false;
+ b.addEventListener('pointerdown',e=>{if(e.target.closest('.delete'))return;if(e.pointerType==='mouse'&&e.button!==0)return;longPressed=false;clearTimeout(pressTimer);pressTimer=setTimeout(()=>{longPressed=true;setJiggle(true)},800)});
+ ['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>clearTimeout(pressTimer)));
+ b.addEventListener('click',e=>{e.stopPropagation();if(longPressed)return;if(jiggle)return;if(app.settings){openWallpapers();return}if(app.bundleID){launchNativeApp(app.bundleID);return}openApp(app)});
+ return b;
+}
+function render(){
+ pageEls.forEach(p=>p.replaceChildren());
+ const split=Math.ceil(apps.length/2);
+ apps.forEach((app,i)=>pageEls[i<split?0:1].append(makeIcon(app)));
+ dock.replaceChildren(...dockApps.map(makeIcon));renderDots();setPage(Math.min(activePage,1),false);
+}
+function renderDots(){dots.replaceChildren();pageEls.forEach((_,i)=>{const b=document.createElement('button');b.className='dot'+(i===activePage?' active':'');b.setAttribute('aria-label','Page '+(i+1));b.addEventListener('click',()=>setPage(i,true));dots.append(b)})}
+function setPage(i,animate=true){activePage=Math.max(0,Math.min(pageEls.length-1,i));pages.classList.toggle('animating',animate);pages.style.transform=`translate3d(${-activePage*393}px,0,0)`;$$('.dot',dots).forEach((d,j)=>d.classList.toggle('active',j===activePage))}
+function setJiggle(v){jiggle=v;phone.classList.toggle('jiggle',v)}
+function removeApp(app,button){if(app.bundleID){const h=window.webkit?.messageHandlers?.deleteApp;if(h)h.postMessage(app.bundleID)}const i=apps.indexOf(app);if(i>=0)apps.splice(i,1);setJiggle(false);render();showToast(app.name+' removed from preview')}
+function openApp(app){$('#windowTitle').textContent=app.name;const area=$('#windowContent');area.replaceChildren();const h=document.createElement('h1');h.textContent=app.name;const p=document.createElement('p');p.textContent=app.detail||'App information';const card=document.createElement('div');card.className='app-card';const strong=document.createElement('strong');strong.textContent='Launcher preview';const copy=document.createElement('p');copy.textContent=app.bundleID?'Bundle ID: '+app.bundleID:'This is a sample app window. Native launch will be connected to LiveContainer during integration.';card.append(strong,copy);area.append(h,p,card);appWindow.classList.add('open')}
+function closeApp(){appWindow.classList.remove('open')}
+function openWallpapers(){setJiggle(false);wallpaperPanel.classList.add('open')}
+function closeWallpapers(){wallpaperPanel.classList.remove('open')}
+function applyWallpaper(i){phone.classList.remove(...wallpapers.map(w=>w.cls));phone.classList.add(wallpapers[i].cls);$$('.wallpaper-thumb').forEach((b,j)=>b.classList.toggle('selected',i===j))}
+function buildWallpapers(){const track=$('#wallpaperTrack');wallpapers.forEach((w,i)=>{const item=document.createElement('div');item.className='wallpaper-item';const b=document.createElement('button');b.className='wallpaper-thumb '+w.cls+(i===0?' selected':'');b.setAttribute('aria-label',w.name);b.addEventListener('click',()=>applyWallpaper(i));const cap=document.createElement('span');cap.className='caption';cap.textContent=w.name;item.append(b,cap);track.append(item)})}
+function showToast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2100)}
+function showAddModal(){setJiggle(false);$('#modalTitle').textContent='Add app';$('#modalDescription').textContent='These sample entries preview the UI. Use the native file picker when this UI is connected to LiveContainer.';const options=$('#modalOptions');options.replaceChildren();[{name:'Example App',glyph:'◈',style:'custom',bundleID:'com.example.app'},{name:'Test Utility',glyph:'⌘',style:'files',bundleID:'com.example.utility'}].forEach(app=>{const b=document.createElement('button');b.className='file-option';const icon=document.createElement('span');icon.className='app-icon '+app.style;icon.style.cssText='width:43px;height:43px;border-radius:12px;font-size:23px';icon.textContent=app.glyph;const text=document.createElement('span');text.append(document.createTextNode(app.name));const small=document.createElement('small');small.textContent='Preview only · '+app.bundleID;text.append(small);b.append(icon,text);b.addEventListener('click',()=>{window.onNativeFileSelected(app.name,app.bundleID,'mock://'+app.bundleID);modal.classList.remove('open')});options.append(b)});modal.classList.add('open')}
+function requestNativeFilePicker(){const h=window.webkit?.messageHandlers?.launchFilePicker;if(h){h.postMessage({source:'launcher'});return}showAddModal()}
+function launchNativeApp(bundleID){const h=window.webkit?.messageHandlers?.launchApp;if(h){h.postMessage(bundleID);return}showToast('Native launch bridge not connected: '+bundleID)}
+/* Native host can call this function after it imports/selects an app. */
+window.onNativeFileSelected=function(appName,bundleID,path){const app={name:String(appName||'Imported App'),glyph:'◈',style:'custom',system:false,bundleID:String(bundleID||''),path:String(path||''),detail:'Imported app managed by the native host.'};apps.push(app);render();showToast(app.name+' added')};
+function startDrag(x){if(appWindow.classList.contains('open')||control.classList.contains('open')||wallpaperPanel.classList.contains('open')||modal.classList.contains('open'))return;startX=x;currentX=x;dragging=true;pages.classList.remove('animating')}
+function moveDrag(x){if(!dragging)return;const dx=x-startX,min=-(pageEls.length-1)*393;let offset=-activePage*393+dx;if(offset>0)offset*=.3;if(offset<min)offset=min+(offset-min)*.3;currentX=x;pages.style.transform=`translate3d(${offset}px,0,0)`}
+function endDrag(x){if(!dragging)return;const dx=x-startX;dragging=false;setPage(Math.abs(dx)>60?activePage+(dx<0?1:-1):activePage,true)}
+viewport.addEventListener('pointerdown',e=>{if(e.target.closest('.app'))return;startDrag(e.clientX)});
+viewport.addEventListener('pointermove',e=>moveDrag(e.clientX));viewport.addEventListener('pointerup',e=>endDrag(e.clientX));viewport.addEventListener('pointercancel',e=>endDrag(e.clientX));
+viewport.addEventListener('click',e=>{if(!e.target.closest('.app')&&jiggle)setJiggle(false)});
+let ccStart=null;phone.addEventListener('pointerdown',e=>{if(e.clientY<65&&!wallpaperPanel.classList.contains('open'))ccStart={y:e.clientY}});phone.addEventListener('pointerup',e=>{if(!ccStart)return;const dy=e.clientY-ccStart.y;if(dy>55&&ccStart.y<65)control.classList.add('open');if(dy< -55&&control.classList.contains('open'))control.classList.remove('open');ccStart=null});
+$$('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{b.classList.toggle('on');const n=b.dataset.toggle;showToast(n[0].toUpperCase()+n.slice(1)+' '+(b.classList.contains('on')?'on':'off')+' (preview)')}));
+$('#dismissControl').addEventListener('click',()=>control.classList.remove('open'));$('#closeWallpapers').addEventListener('click',closeWallpapers);$('#closeApp').addEventListener('click',closeApp);$('#cancelModal').addEventListener('click',()=>modal.classList.remove('open'));$('#uploadButton').addEventListener('click',requestNativeFilePicker);
+$('#homeBar').addEventListener('click',()=>{setJiggle(false);closeApp();closeWallpapers();control.classList.remove('open');modal.classList.remove('open');setPage(0,true)});
+phone.addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('keydown',e=>{if(e.key==='Escape'){setJiggle(false);closeApp();closeWallpapers();control.classList.remove('open');modal.classList.remove('open')}});
+function updateTime(){const d=new Date();$('#time').textContent=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',hour12:false})}
+buildWallpapers();render();updateTime();setInterval(updateTime,30000);
+})();
+</script>
+</body>
+</html>

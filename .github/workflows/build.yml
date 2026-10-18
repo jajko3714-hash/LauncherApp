@@ -1,0 +1,46 @@
+name: Build iOS App
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build iOS App
+    runs-on: macos-13
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+          
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+          
+      - name: Generate Xcode Project
+        run: |
+          cd LauncherApp
+          xcodegen generate
+          
+      - name: Build
+        run: |
+          cd LauncherApp
+          xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Debug -destination 'generic/platform=iOS Simulator' build
+        
+      - name: Create IPA
+        run: |
+          cd LauncherApp
+          xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Release -destination 'generic/platform=iOS' archive -archivePath build/LiveContainer.xcarchive
+          xcodebuild -exportArchive -archivePath build/LiveContainer.xcarchive -exportOptionsPlist exportOptions.plist -exportPath .
+          
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: LauncherApp.ipa
+          path: LauncherApp/LiveContainer.ipa
