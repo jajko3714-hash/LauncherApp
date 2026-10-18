@@ -4,6 +4,8 @@
 <dict>
     <key>method</key>
     <string>development</string>
+    <key>teamID</key>
+    <string>FAKETEAMID</string>
     <key>skipPackageSignatureValidation</key>
     <true/>
 </dict>
