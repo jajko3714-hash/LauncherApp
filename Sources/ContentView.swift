@@ -99,7 +99,3 @@ struct WebViewContainer: UIViewRepresentable {
         }
     }
 }
-
-#Preview {
-    ContentView()
-}
