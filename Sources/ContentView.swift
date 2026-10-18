@@ -40,11 +40,11 @@ struct WebViewContainer: UIViewRepresentable {
         }
         
         // Load the HTML file from Resources
-        if let htmlURL = Bundle.main.url(forResource: "index", withExtension: "html") {
-            print("✅ Found index.html at: \(htmlURL.path)")
+        if let htmlURL = Bundle.main.url(forResource: "index", withExtension: "htm") {
+            print("✅ Found index.htm at: \(htmlURL.path)")
             webView.loadFileURL(htmlURL, allowingReadAccessTo: htmlURL.deletingLastPathComponent())
         } else {
-            print("❌ Could not find index.html in bundle")
+            print("❌ Could not find index.htm in bundle")
             // Fallback: load from app bundle root
             let htmlString = """
             <!DOCTYPE html>
