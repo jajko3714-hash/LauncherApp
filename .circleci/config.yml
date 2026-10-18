@@ -22,14 +22,13 @@ jobs:
             xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Debug -destination 'generic/platform=iOS Simulator' build
       
       - run:
-          name: Create IPA
+          name: Build and Archive iOS App
           command: |
             xcodebuild -project LauncherApp.xcodeproj -scheme LauncherApp -configuration Release -destination 'generic/platform=iOS' archive -archivePath build/LiveContainer.xcarchive
-            xcodebuild -exportArchive -archivePath build/LiveContainer.xcarchive -exportOptionsPlist exportOptions.plist -exportPath . -allowProvisioningUpdates
 
       - store_artifacts:
-          path: LiveContainer.ipa
-          destination: LauncherApp.ipa
+          path: build/LiveContainer.xcarchive
+          destination: LauncherApp.xcarchive
 
 workflows:
   version: 2
