@@ -10,13 +10,10 @@ targets:
     platform: iOS
     sources:
       - path: Sources
-    resources:
       - path: Resources
         buildPhase: resources
-        type: file
-      - path: Resources/index.htm
-        type: file
-        buildPhase: resources
+    resources:
+      - path: Resources
     settings:
       PRODUCT_NAME: LauncherApp
       SWIFT_VERSION: "5.9"
