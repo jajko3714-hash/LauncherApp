@@ -15,6 +15,7 @@ targets:
     settings:
       PRODUCT_NAME: LauncherApp
       SWIFT_VERSION: "5.9"
+      GENERATE_INFOPLIST_FILE: YES
       CODE_SIGN_IDENTITY: "iPhone Developer"
       PROVISIONING_PROFILE_SPECIFIER: ""
       DEVELOPMENT_TEAM: ""
