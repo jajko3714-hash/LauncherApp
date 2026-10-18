@@ -33,6 +33,19 @@ jobs:
             ARCHIVE_PATH="build/LiveContainer.xcarchive"
             APP_PATH="$ARCHIVE_PATH/Products/Applications/LauncherApp.app"
             
+            # Debug: list what's in the archive
+            echo "=== Archive contents ==="
+            ls -la "$ARCHIVE_PATH/"
+            echo ""
+            echo "=== App bundle contents ==="
+            ls -la "$APP_PATH/"
+            echo ""
+            echo "=== Resources in app bundle ==="
+            ls -la "$APP_PATH/Resources/" 2>/dev/null || echo "No Resources folder"
+            echo ""
+            echo "=== Looking for index.htm ==="
+            find "$APP_PATH" -name "*.htm*" -o -name "index.*" 2>/dev/null || echo "No HTML files found"
+            
             # Create Payload directory and copy .app
             mkdir -p build/Payload
             cp -R "$APP_PATH" build/Payload/
@@ -45,6 +58,7 @@ jobs:
             # Cleanup
             rm -rf build/Payload
             
+            echo ""
             echo "Unsigned IPA created: build/LiveContainer.ipa"
             ls -la build/LiveContainer.ipa
 
